@@ -33,3 +33,9 @@ All endpoints return data as JSON
   * Gets an individual note by it's ID
 * POST `/notes`
   * Add a note, body of request should be JSON note payload
+
+## Setup
+
+* Install [go](https://go.dev/doc/install)
+* Open a shell in this directory
+* Run `go run .`
