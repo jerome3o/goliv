@@ -1,7 +1,9 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
+	"sync"
 
 	"github.com/gin-gonic/gin"
 )
@@ -11,6 +13,11 @@ type note struct {
 	Text string   `json:"text"`
 	Tags []string `json:"tags"`
 	User string   `json:"user"`
+}
+
+type idCounter struct {
+	m       sync.Mutex
+	counter int
 }
 
 var notes = []note{
@@ -32,6 +39,18 @@ var notes = []note{
 		Tags: []string{"important", "task", "soon"},
 		User: "Jerome",
 	},
+}
+
+var counter idCounter = idCounter{counter: len(notes) + 1}
+
+func getNextId() string {
+	counter.m.Lock()
+	defer counter.m.Unlock()
+
+	nextId := counter.counter
+	counter.counter += 1
+
+	return fmt.Sprintf("%v", nextId)
 }
 
 func main() {
@@ -89,6 +108,7 @@ func postNotes(c *gin.Context) {
 		return
 	}
 
+	newNote.ID = getNextId()
 	notes = append(notes, newNote)
 	c.IndentedJSON(http.StatusCreated, newNote)
 }

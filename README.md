@@ -8,8 +8,10 @@ service the notes will be reset.
 
 Some massive short cuts taken just to get you started
 
-* IDs are not managed by the service
 * The User field does nothing at this point (no auth, filtering, or anything)
+* A "time added" or "time updated" field is needed
+* An update end point is needed
+* A delete endpoint is needed
 
 ## Data Model
 
@@ -33,6 +35,7 @@ All endpoints return data as JSON
   * Gets an individual note by it's ID
 * POST `/notes`
   * Add a note, body of request should be JSON note payload
+  * The server assigns an ID, and the value (if provided) is ignored
 
 ## Setup
 
